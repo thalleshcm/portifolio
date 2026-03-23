@@ -1,6 +1,5 @@
 // src/app/api/projects/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import type { Project } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { uploadFile, getMediaType } from "@/lib/upload";
 import { generateSlug } from "@/lib/slugify";
@@ -20,19 +19,17 @@ export async function GET(req: NextRequest) {
   if (featured === "true") where.featured = true;
   if (q) where.OR = [{ title: { contains: q } }, { tags: { contains: q } }];
 
-  const [total, projects] = await Promise.all([
-    prisma.project.count({ where }),
-    prisma.project.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-      skip: (page - 1) * limit,
-      take: limit,
-      include: { extraMedia: true },
-    }),
-  ]);
+  const total = await prisma.project.count({ where });
+  const projects = await prisma.project.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+    skip: (page - 1) * limit,
+    take: limit,
+    include: { extraMedia: true },
+  });
 
   return NextResponse.json({
-    projects: projects.map((p: Project) => ({ ...p, tags: JSON.parse(p.tags || "[]") })),
+    projects: projects.map((p: any) => ({ ...p, tags: JSON.parse(p.tags || "[]") })),
     total,
     page,
     pages: Math.ceil(total / limit),

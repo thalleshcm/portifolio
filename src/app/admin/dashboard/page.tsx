@@ -81,7 +81,7 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {projects.map(p => (
+                {projects.map((p: Project) => (
                   <tr key={p.id} className="hover:bg-bg-elevated transition-colors">
                     <td className="px-4 py-4">
                       <p className="font-medium text-text-primary line-clamp-1">{p.title}</p>

@@ -4,12 +4,13 @@ import { prisma } from "@/lib/prisma";
 import SiteLayout from "@/components/layout/SiteLayout";
 import ProjectCard from "@/components/project/ProjectCard";
 import type { Metadata } from "next";
+import type { Project } from "@/types";
 
 export const metadata: Metadata = {
   title: "Seu Nome — Designer Gráfico & Videomaker",
 };
 
-function parseProject(p: any) {
+function parseProject(p: any): Project {
   return { ...p, tags: JSON.parse(p.tags || "[]"), extraMedia: p.extraMedia || [] };
 }
 
@@ -20,7 +21,7 @@ export default async function HomePage() {
     take: 8,
     include: { extraMedia: true },
   });
-  const projects = raw.map(parseProject);
+  const projects: Project[] = raw.map(parseProject);
 
   return (
     <SiteLayout>
@@ -90,7 +91,7 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-            {projects.map((p, i) => (
+            {projects.map((p: Project, i: number) => (
               <ProjectCard key={p.id} project={p} priority={i < 4} />
             ))}
           </div>

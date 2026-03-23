@@ -6,12 +6,13 @@ import { prisma } from "@/lib/prisma";
 import SiteLayout from "@/components/layout/SiteLayout";
 import { PROJECT_TYPE_LABELS } from "@/types";
 import type { Metadata } from "next";
+import type { Project, MediaItem } from "@/types";
 
 interface Props {
   params: { slug: string };
 }
 
-function parseProject(p: any) {
+function parseProject(p: any): Project {
   return { ...p, tags: JSON.parse(p.tags || "[]"), extraMedia: p.extraMedia || [] };
 }
 
@@ -31,7 +32,7 @@ export default async function ProjectPage({ params }: Props) {
   });
   if (!raw) notFound();
 
-  const project = parseProject(raw);
+  const project: Project = parseProject(raw);
 
   // Navegação anterior / próximo
   const [prev, next] = await Promise.all([
@@ -127,7 +128,7 @@ export default async function ProjectPage({ params }: Props) {
               <div className="mt-12">
                 <h2 className="font-display font-bold text-xl mb-6">Galeria</h2>
                 <div className="grid grid-cols-2 gap-4">
-                  {project.extraMedia.map((m: any) => (
+                  {project.extraMedia.map((m: MediaItem) => (
                     <div
                       key={m.id}
                       className="relative aspect-[4/3] rounded-xl overflow-hidden bg-bg-elevated border border-border"

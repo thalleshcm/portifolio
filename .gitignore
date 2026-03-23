@@ -1,0 +1,10 @@
+.next/
+node_modules/
+*.db
+*.db-journal
+.env
+.env.local
+
+# Mantém a pasta mas ignora os uploads
+/public/uploads/*
+!/public/uploads/.gitkeep

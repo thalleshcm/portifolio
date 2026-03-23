@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-syne: 'Syne', sans-serif;
+  --font-barlow: 'Barlow', sans-serif;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg-base text-text-primary;
+    font-family: var(--font-barlow);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-syne);
+    @apply text-text-primary;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-base;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-muted;
+  }
+  ::selection {
+    @apply bg-accent text-bg-base;
+  }
+}
+
+@layer components {
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+    @apply hover:border-accent/40 hover:shadow-[0_0_30px_rgba(203,255,71,0.08)];
+  }
+
+  .btn-accent {
+    @apply bg-accent text-bg-base font-semibold px-6 py-3 rounded-lg;
+    @apply hover:bg-accent-hover transition-colors duration-200 inline-block;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent/50;
+    font-family: var(--font-syne);
+  }
+
+  .btn-outline {
+    @apply border border-border text-text-primary px-6 py-3 rounded-lg;
+    @apply hover:border-accent/60 hover:text-accent transition-colors duration-200 inline-block;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent/30;
+    font-family: var(--font-syne);
+  }
+
+  .input-field {
+    @apply bg-bg-elevated border border-border rounded-lg px-4 py-3 w-full;
+    @apply text-text-primary placeholder-text-muted;
+    @apply focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30;
+    @apply transition-colors duration-200;
+    font-family: var(--font-barlow);
+  }
+
+  .section-tag {
+    @apply inline-flex items-center gap-2 text-accent text-sm font-semibold tracking-widest uppercase;
+    font-family: var(--font-syne);
+  }
+
+  .section-tag::before {
+    content: '';
+    @apply block w-8 h-px bg-accent;
+  }
+}

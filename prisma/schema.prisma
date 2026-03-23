@@ -1,0 +1,58 @@
+// prisma/schema.prisma
+// Para migrar para Postgres em produção:
+//   1. Altere provider para "postgresql"
+//   2. Atualize DATABASE_URL no .env com a string de conexão Postgres
+//   3. Execute: npx prisma migrate deploy
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id            Int         @id @default(autoincrement())
+  slug          String      @unique
+  title         String
+  subtitle      String?
+  type          ProjectType @default(DESIGN)
+  description   String      @default("")
+  // Tags armazenadas como JSON string ex: '["branding","logo"]'
+  // Em Postgres pode-se usar String[] nativo
+  tags          String      @default("[]")
+  mainMediaUrl  String      @default("")
+  mainMediaType MediaType   @default(IMAGE)
+  externalUrl   String?
+  featured      Boolean     @default(false)
+  projectDate   DateTime    @default(now())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  extraMedia    Media[]
+}
+
+model Media {
+  id        Int       @id @default(autoincrement())
+  url       String
+  type      MediaType @default(IMAGE)
+  order     Int       @default(0)
+  projectId Int
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+}
+
+enum ProjectType {
+  DESIGN
+  SOCIAL
+  VIDEO
+  MOTION
+  BRANDING
+  OUTROS
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}

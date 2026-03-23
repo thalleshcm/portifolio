@@ -1,5 +1,6 @@
 // src/app/api/projects/route.ts
 import { NextRequest, NextResponse } from "next/server";
+import type { Project } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { uploadFile, getMediaType } from "@/lib/upload";
 import { generateSlug } from "@/lib/slugify";
@@ -31,7 +32,7 @@ export async function GET(req: NextRequest) {
   ]);
 
   return NextResponse.json({
-    projects: projects.map(p => ({ ...p, tags: JSON.parse(p.tags || "[]") })),
+    projects: projects.map((p: Project) => ({ ...p, tags: JSON.parse(p.tags || "[]") })),
     total,
     page,
     pages: Math.ceil(total / limit),

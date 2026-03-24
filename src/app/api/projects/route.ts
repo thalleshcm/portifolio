@@ -5,6 +5,8 @@ import { uploadFile, getMediaType } from "@/lib/upload";
 import { generateSlug } from "@/lib/slugify";
 import { getAdminSession } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/projects — listagem pública com filtros e paginação
 export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;

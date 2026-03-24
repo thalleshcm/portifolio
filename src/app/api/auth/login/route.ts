@@ -2,6 +2,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signToken, validateAdminCredentials, COOKIE_NAME } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json();
 

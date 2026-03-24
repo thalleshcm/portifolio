@@ -5,6 +5,8 @@ import { uploadFile, getMediaType, deleteFile } from "@/lib/upload";
 import { generateSlug } from "@/lib/slugify";
 import { getAdminSession } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
 interface Ctx { params: { id: string } }
 
 // GET /api/projects/:id
